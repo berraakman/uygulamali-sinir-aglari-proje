@@ -3,6 +3,9 @@ Eğitim Scripti
 Monoküler derinlik tahmin modelini eğitir.
 
 Kullanım:
+    python -m venv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
     python train.py
 """
 
@@ -214,7 +217,4 @@ def train():
 if __name__ == "__main__":
     train()
 
-# python -m venv venv
-# source venv/bin/activate
-# pip install -r requirements.txt
-# python train.py
+
