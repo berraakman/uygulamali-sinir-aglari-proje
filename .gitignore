@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+venv/
+depth_env/
+
+# Mac
+.DS_Store
+
+# PyTorch
+*.pth
+*.pt
+checkpoints/
+
+# Proje Özel
+data/
+logs/
+results/
+*.npy
