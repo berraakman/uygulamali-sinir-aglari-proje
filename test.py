@@ -1,10 +1,6 @@
 """
 Test Scripti
 Eğitilmiş modelle tek bir görüntüden derinlik tahmini yapar.
-
-Kullanım:
-    python test.py --checkpoint checkpoints/best_model.pth --image test_image.jpg
-    python test.py --checkpoint checkpoints/best_model.pth --image_dir test_images/
 """
 # test
 # python test.py --checkpoint checkpoints/best_model.pth --image_dir data/nyu_depth_v2/test/rgb --ext png
