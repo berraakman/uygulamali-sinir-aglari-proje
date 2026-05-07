@@ -44,9 +44,13 @@ Projemizde otonom araçlarda ve segmentasyon problemlerinde endüstri standardı
 
 ## 4. Veri Seti (NYU Depth V2)
 Eğitim ve test işlemleri, Microsoft Kinect sensörü ile toplanmış **NYU Depth V2** veri seti üzerinde gerçekleştirilmiştir.
+
+*   **Veri Kaynağı ve İndirme:** Veri seti, orijinal NYU Depth V2 verilerinin önceden işlenmiş bir versiyonu olan (DenseDepth formatı) Kaggle/Açık kaynak veri havuzlarından indirilmiştir. İndirilen ham veriler, projede bulunan özel bir `prepare_data.py` betiği (script) aracılığıyla modele uygun klasör hiyerarşisine (`data/nyu_depth_v2/train`, `val`, `test`) otomatik olarak dönüştürülmüştür.
+*   **Veri Büyüklüğü ve Bölümlendirme (Split):** 
+    *   **Toplam Veri:** Model toplamda yaklaşık **50.000** civarında RGB-Derinlik görüntü çifti ile eğitilmiştir.
+    *   **Eğitim ve Doğrulama (Train/Val):** Hazırlık aşamasında verilerin **%90'ı Eğitim (Train)**, rastgele seçilen **%10'u ise Doğrulama (Validation)** seti olarak ayrılmıştır. Bu sayede modelin ezberlemesinin (overfitting) önüne geçilmiştir.
 *   **İçerik:** Çeşitli ev, ofis ve kapalı mekanlara (indoor) ait renkli (RGB) görüntüler ve onlarla eşleşen gerçek uzaklık (Ground Truth Depth) haritaları.
-*   **Büyüklük:** Yaklaşık ~50,000 eğitim (Train) görüntüsü.
-*   **Çözünürlük ve Normalizasyon:** Eğitim sürecini hızlandırmak için görüntüler `256x320` boyutlarına yeniden ölçeklendirilmiş ve PyTorch'un standart ImageNet normalizasyonu (`mean=[0.485, 0.456, 0.406]`, `std=[0.229, 0.224, 0.225]`) ile normalize edilmiştir.
+*   **Çözünürlük ve Normalizasyon:** Eğitim sürecini hızlandırmak ve ResNet mimarisine uyum sağlamak için görüntüler `256x320` boyutlarına yeniden ölçeklendirilmiş ve PyTorch'un standart ImageNet normalizasyonu (`mean=[0.485, 0.456, 0.406]`, `std=[0.229, 0.224, 0.225]`) ile normalize edilmiştir.
 
 ---
 
