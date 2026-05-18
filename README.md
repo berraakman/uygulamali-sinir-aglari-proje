@@ -94,7 +94,7 @@ pip install -r requirements.txt
 
 ## 8. Kullanım ve Scriptler
 
-Sistem mimarisi modüler olarak (`config.py`, `train.py`, `test.py` vd.) tasarlanmıştır. Tüm hiperparametreler `config.py` üzerinden yönetilmektedir.
+Sistem mimarisi modüler olarak (`config.py`, `train.py`, `test.py`, `app.py` vd.) tasarlanmıştır. Tüm hiperparametreler `config.py` üzerinden yönetilmektedir.
 
 ### 🏋️ Eğitimi Başlatmak (Training)
 ```bash
@@ -110,6 +110,25 @@ Eğitimi tamamlanmış modeli test etmek ve görsel çıktılar almak için:
 python test.py --checkpoint checkpoints/best_model.pth --image_dir data/nyu_depth_v2/test/rgb --ext png
 ```
 *Test scripti belirtilen klasördeki tüm görüntüleri tarar, modeli çalıştırır ve derinlik ısı haritalarını (heatmaps) `results/` klasörüne kaydeder.*
+
+### 🌐 Kullanıcı Dostu Web Arayüzü (Web App - Flask)
+Sürükle-bırak yöntemiyle pratik ve anlık derinlik analizi yapabilmek için modern, yüksek performanslı ve karanlık tema (dark mode) tasarımına sahip bir web arayüzü entegre edilmiştir.
+
+**Öne Çıkan Özellikler:**
+*   **Sürükle-Bırak (Drag & Drop) ve Dosya Tarayıcı:** Görselinizi sürükleyip bırakarak veya seçerek doğrudan sisteme yükleyebilirsiniz.
+*   **Akıcı Animasyonlar ve Yükleme Aşaması:** Model tahmini sırasında dinamik yükleme halkası ve ilerleme çubuğu gösterilir.
+*   **Sekmeli Görünüm (Karşılaştırma & Derinlik Haritası):** RGB girdi ile derinlik görselini yan yana veya sadece yüksek çözünürlüklü derinlik haritasını ayrı ayrı inceleyebilirsiniz.
+*   **İnteraktif İstatistikler:** Tahmin edilen derinlik haritasının minimum, maksimum, ortalama derinlik değerlerini ve standart sapmasını (metre cinsinden) gerçek zamanlı hesaplayıp gösterir.
+*   **Sonuçları İndirme:** Üretilen derinlik haritalarını veya karşılaştırma şablonunu tek tıkla cihazınıza indirebilirsiniz.
+
+**Çalıştırma Adımları:**
+```bash
+# Sanal ortamı aktif edin ve Flask uygulamasını başlatın
+source venv/bin/activate
+python app.py
+```
+*   Uygulama başarıyla başlatıldığında tarayıcınızdan **[http://localhost:8080](http://localhost:8080)** adresine giderek arayüze erişebilirsiniz.
+*   *(Not: macOS işletim sistemlerinde varsayılan 5000 portu AirPlay Receiver tarafından kullanılabildiği için web uygulaması stabilite amacıyla **8080** portunda çalışacak şekilde yapılandırılmıştır).*
 
 ---
 
