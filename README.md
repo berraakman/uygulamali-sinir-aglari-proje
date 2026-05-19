@@ -202,7 +202,7 @@ Eğer modeli sıfırdan eğitmekle vakit kaybetmeden **doğrudan Web Arayüzün�
 > [!IMPORTANT]
 > Model ağırlıklarının dosya boyutu çok büyük olduğu (~172 MB) ve `.pth` uzantısı `.gitignore` kapsamında yer aldığı için ağırlıklar GitHub'a doğrudan yüklenmemiştir. (GitHub doğrudan 100 MB üstü dosya yüklenmesine izin vermez).
 >
-> 📥 **[Eğitilmiş Model Ağırlıklarını İndir (Google Drive - best_model.pth)](BURAYA_GOOGLE_DRIVE_LINKINI_YAPISTIRIN)**
+> 📥 **[Eğitilmiş Model Ağırlıklarını İndir (Google Drive - best_model.pth)](https://drive.google.com/drive/folders/1-QqTGqcKMf8Uw__aay8L2CJWtg9Nryhn?usp=sharing)**
 
 1. Projenin ana dizininde `checkpoints` adında bir klasör oluşturun:
    ```bash
