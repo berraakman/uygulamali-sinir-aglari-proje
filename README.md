@@ -167,7 +167,7 @@ Modelin başarısı, literatürde kabul gören standart sayısal metrikler ile �
 
 ---
 
-## 8. 🚀 Kurulum ve 0'dan Çalıştırma Kılavuzu
+## 8. 🚀 Kurulum ve Çalıştırma Kılavuzu
 
 Proje; Apple Silicon (M1/M2/M3) Mac'lerde **MPS (Metal Performance Shaders)**, NVIDIA ekran kartlı sistemlerde **CUDA** ve GPU bulunmayan sistemlerde **CPU** donanım hızlandırmasını otomatik olarak algılayıp çalışacak biçimde mimari bağımsız kodlanmıştır.
 
@@ -200,13 +200,15 @@ pip install -r requirements.txt
 Eğer modeli sıfırdan eğitmekle vakit kaybetmeden **doğrudan Web Arayüzünü (`app.py`)** veya **test scriptini (`test.py`)** çalıştırmak istiyorsanız, önceden eğitilmiş model ağırlıklarına ihtiyacınız vardır.
 
 > [!IMPORTANT]
-> Model ağırlıklarının dosya boyutu çok büyük olduğu ve `.pth` uzantısı `.gitignore` kapsamında yer aldığı için ağırlıklar GitHub'a doğrudan yüklenmemiştir.
+> Model ağırlıklarının dosya boyutu çok büyük olduğu (~172 MB) ve `.pth` uzantısı `.gitignore` kapsamında yer aldığı için ağırlıklar GitHub'a doğrudan yüklenmemiştir. (GitHub doğrudan 100 MB üstü dosya yüklenmesine izin vermez).
+>
+> 📥 **[Eğitilmiş Model Ağırlıklarını İndir (Google Drive - best_model.pth)](BURAYA_GOOGLE_DRIVE_LINKINI_YAPISTIRIN)**
 
 1. Projenin ana dizininde `checkpoints` adında bir klasör oluşturun:
    ```bash
    mkdir checkpoints
    ```
-2. Eğitilmiş model ağırlık dosyasını (`best_model.pth`) indirin ve bu klasörün altına yerleştirin.
+2. Yukarıdaki bağlantıdan indirdiğiniz `best_model.pth` dosyasını bu klasörün altına yerleştirin.
 3. Dosya yapısı tam olarak şu şekilde olmalıdır: `checkpoints/best_model.pth`
 
 *(Eğer modeli kendi yerel bilgisayarınızda sıfırdan eğitmek istiyorsanız bu adımı geçip doğrudan 3. Adım'a ilerleyebilirsiniz. Eğitim başladığında bu klasör ve ağırlıklar otomatik olarak oluşturulacaktır.)*
