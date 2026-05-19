@@ -3,6 +3,7 @@ Monoküler Derinlik Tahmini - Web Arayüzü
 Sürükle-bırak ile fotoğraf yükleyip derinlik haritası oluşturur.
 Flask tabanlı web uygulaması.
 """
+# source venv/bin/activate && python app.py
 
 import os
 import io
