@@ -167,62 +167,101 @@ Modelin başarısı, literatürde kabul gören standart sayısal metrikler ile �
 
 ---
 
-## 8. 🚀 Kurulum ve Çalıştırma Kılavuzu
+## 8. 🚀 Kurulum ve 0'dan Çalıştırma Kılavuzu
 
-Proje, Apple Silicon (M1/M2/M3) Mac'lerde **MPS (Metal Performance Shaders)**, NVIDIA ekran kartlı sistemlerde ise **CUDA** donanım hızlandırmasını otomatik olarak algılayıp çalışacak biçimde mimari bağımsız kodlanmıştır.
+Proje; Apple Silicon (M1/M2/M3) Mac'lerde **MPS (Metal Performance Shaders)**, NVIDIA ekran kartlı sistemlerde **CUDA** ve GPU bulunmayan sistemlerde **CPU** donanım hızlandırmasını otomatik olarak algılayıp çalışacak biçimde mimari bağımsız kodlanmıştır.
 
-### 1. Ortam Kurulumu
-Terminale aşağıdaki komutları sırasıyla yazarak sanal ortamı kurun ve kütüphaneleri yükleyin:
+Bir kullanıcının projeyi sıfırdan sorunsuz çalıştırabilmesi için aşağıdaki 4 ana adımı takip etmesi gerekmektedir:
+
+---
+
+### 📋 1. Adım: Ortam Kurulumu ve Bağımlılıklar
+Terminale aşağıdaki komutları sırasıyla yazarak sanal ortamı kurun ve gerekli kütüphaneleri yükleyin:
 
 ```bash
-# Projeyi klonlayın
+# 1. Projeyi bilgisayarınıza klonlayın
 git clone <proje-github-adresi>
 cd monocular-depth-cnn
 
-# Python sanal ortamı oluşturun ve aktif edin
+# 2. Python sanal ortamı (virtual environment) oluşturun
 python3 -m venv venv
+
+# 3. Sanal ortamı aktif hale getirin
 source venv/bin/activate  # (Windows için: venv\Scripts\activate)
 
-# Bağımlılıkları yükleyin
+# 4. Gerekli tüm kütüphaneleri yükleyin
+pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### 2. Veri Setini Hazırlama
-Eğer ham veri setiniz varsa, aşağıdaki script yardımıyla otomatik olarak bölümlendirip (`train/val/test`) modelin okuyabileceği yapıya getirebilirsiniz:
-```bash
-python prepare_data.py
-```
+---
 
-### 3. Eğitimi Başlatma
-Eğitim sürecini başlatmak ve validation kaybını izlemek için:
+### 🧠 2. Adım: Önceden Eğitilmiş Ağırlıkların Hazırlanması (Hızlı Çalıştırma İçin)
+Eğer modeli sıfırdan eğitmekle vakit kaybetmeden **doğrudan Web Arayüzünü (`app.py`)** veya **test scriptini (`test.py`)** çalıştırmak istiyorsanız, önceden eğitilmiş model ağırlıklarına ihtiyacınız vardır.
+
+> [!IMPORTANT]
+> Model ağırlıklarının dosya boyutu çok büyük olduğu ve `.pth` uzantısı `.gitignore` kapsamında yer aldığı için ağırlıklar GitHub'a doğrudan yüklenmemiştir.
+
+1. Projenin ana dizininde `checkpoints` adında bir klasör oluşturun:
+   ```bash
+   mkdir checkpoints
+   ```
+2. Eğitilmiş model ağırlık dosyasını (`best_model.pth`) indirin ve bu klasörün altına yerleştirin.
+3. Dosya yapısı tam olarak şu şekilde olmalıdır: `checkpoints/best_model.pth`
+
+*(Eğer modeli kendi yerel bilgisayarınızda sıfırdan eğitmek istiyorsanız bu adımı geçip doğrudan 3. Adım'a ilerleyebilirsiniz. Eğitim başladığında bu klasör ve ağırlıklar otomatik olarak oluşturulacaktır.)*
+
+---
+
+### 📊 3. Adım: Veri Setinin İndirilmesi ve Hazırlanması (Sıfırdan Eğitim İçin)
+Modeli sıfırdan eğitmek veya test setindeki tüm görüntüleri test etmek istiyorsanız veri setini kurmanız gerekir:
+
+1. Kaggle üzerindeki önceden işlenmiş [NYU Depth V2 (DenseDepth formatında)](https://www.kaggle.com/datasets/vasuz22/nyu-depth-v2-densedepth) zip dosyasını indirin.
+2. İndirdiğiniz zip dosyasını bilgisayarınızda bir klasöre çıkartın (örn: `/Users/kullanici/Downloads/nyu_data`). Klasörün içerisinde `nyu2_train` ve `nyu2_test` dizinlerinin yer aldığından emin olun.
+3. Proje klasöründeki ön işleme betiğini (`prepare_data.py`) kendi bilgisayarınızdaki yol parametresiyle çalıştırarak verileri modelin okuyacağı standart formata dönüştürün:
+   ```bash
+   python prepare_data.py --source /Users/kullanici/Downloads/nyu_data/data
+   ```
+   *(Dosya yolunu kendi bilgisayarınıza göre güncellemeyi unutmayın!)*
+4. Bu işlem tamamlandığında proje ana dizininde `data/nyu_depth_v2` adında yeni bir klasör oluşacak; verilerin `%90`'ı eğitim (`train`), `%10`'u doğrulama (`val`) ve tamamı test (`test`) dizinlerine otomatik olarak dağıtılacaktır.
+
+---
+
+### 🏋️ 4. Adım: Modeli Eğtme, Test Etme ve Çalıştırma
+
+Tüm hazırlıklar tamamlandıktan sonra aşağıdaki senaryolardan dilediğinizi uygulayabilirsiniz:
+
+#### A) Kendi Modelinizi Sıfırdan Eğitmek
+Eğer veri setini 3. Adım'daki gibi hazırladıysanız eğitimi başlatmak için:
 ```bash
 python train.py
 ```
-* **Not:** Eğitim sürerken en iyi ağırlıklar `checkpoints/best_model.pth` olarak otomatik kaydedilir.
-* **Görsel Takip:** Eğitim esnasındaki kayıp grafiklerini ve görsel gelişimi anlık izlemek için ayrı bir terminalde Tensorboard'u açabilirsiniz:
+* **Eğitim İzleme (Tensorboard):** Eğitim esnasındaki anlık kayıp grafiği ve görsel sonuç değişimlerini tarayıcıdan izlemek için ayrı bir terminal sekmesinde şu komutu çalıştırın ve `http://localhost:6006` adresine gidin:
   ```bash
   tensorboard --logdir=logs
   ```
+* **Not:** Eğitim bittiğinde en iyi ağırlıklar otomatik olarak `checkpoints/best_model.pth` içerisine kaydedilir.
 
-### 4. Modeli Test Etme (Inference)
-Eğitilmiş modeli test seti üzerinde çalıştırmak ve çıktı görselleri elde etmek için:
+#### B) Tek/Çoklu Resim Üzerinde Test (Inference)
+Eğitilmiş modelinizi (`checkpoints/best_model.pth`) kullanarak belirtilen klasördeki görsellerin derinlik haritalarını üretmek ve `results/` klasörüne kaydetmek için:
 ```bash
 python test.py --checkpoint checkpoints/best_model.pth --image_dir data/nyu_depth_v2/test/rgb --ext png
 ```
-*Görsel çıktılar ve tahmin npy dosyaları otomatik olarak `results/` klasörüne kaydedilecektir.*
 
-### 5. Değerlendirme (Evaluation)
-Test veri setindeki tüm metrik sonuçlarını hesaplayıp bir metin dosyasına kaydetmek için:
+#### C) Test Seti Üzerinde Akademik Metrik Değerlendirmesi
+Modelin genel başarısını (RMSE, REL, $\delta$ doğrulukları) hesaplamak ve `results/metrics_test.txt` dosyasına raporlamak için:
 ```bash
 python evaluate.py --checkpoint checkpoints/best_model.pth --split test
 ```
 
-### 6. Flask Web Uygulamasını Çalıştırma
-Gelişmiş kullanıcı dostu arayüzü kendi tarayıcınızda açmak için:
+#### D) Flask Web Arayüzünü Başlatma (Kullanıcı Arayüzü)
+Kullanıcı dostu, sürükle-bırak destekli, sahne istatistiklerini hesaplayan web arayüzünü ayağa kaldırmak için:
 ```bash
+# Flask uygulamasını başlatın
 python app.py
 ```
-Uygulama başladığında tarayıcınızdan **[http://localhost:8080](http://localhost:8080)** adresine giderek derinlik analizine başlayabilirsiniz.
+Uygulama başarıyla başladığında tarayıcınızdan **[http://localhost:8080](http://localhost:8080)** adresini ziyaret ederek kendi fotoğraflarınızı sürükleyip anında 3D derinlik analizi yapmaya başlayabilirsiniz!
+
 
 ---
 
